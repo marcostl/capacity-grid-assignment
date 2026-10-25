@@ -15,3 +15,17 @@ left unfinished. Append as you go; a line or two per entry is right.
 - Internal errors are logged and translated to a safe UI message.
 - Lacking better logging infrastructure on purpose as I believe this is out of the scope for now. Making a note to revisit it later if time permits
 - Lacking better testing too on purpose. Might revisit it later if time permits
+
+## Implement capacity grid
+
+- Using TanStack Query for cursor-based infinite loading
+- Using TanStack Virtual to keep the mounted row count bounded.
+- An Intersection Observer preloads the next page near the end of the virtual content.
+- Date changes cancel obsolete requests through React Query's abort signal.
+- Initial, incremental, empty, and failed loading states have separate UI so already-loaded rows remain usable when a later page fails.
+- Only rows are virtualized; week columns remain horizontally scrollable because the API already caps the range at roughly two years.
+- Capacity editing is deferred until the PATCH endpoint is implemented.
+- Date selection currently uses explicit from/to inputs and an Apply button.
+- Week-step navigation is intentionally deferred while its UX is reconsidered.
+- CSS has been completely neglected. This is intended for now. Will revisit if time permits
+- Same for the UX of the date selection. Very clunky for now and I believe can be greatly improved. Maybe for later.
