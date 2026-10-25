@@ -1,15 +1,19 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
 
-// handleCapacity serves GET /api/capacity?from=YYYY-MM-DD&to=YYYY-MM-DD
-//
-// It should return, for every person and every week in the requested range,
-// how many hours they are allocated and how much capacity they have.
-//
-// The response shape is yours to design — the grid in web/ is the consumer.
-//
-// TODO: implement.
+	"capacity/api/internal/capacity"
+	"capacity/api/internal/httpapi"
+	postgresadapter "capacity/api/internal/postgres"
+)
+
+// handleCapacity is the composition root for the capacity feature. Keeping the
+// feature wiring here lets main.go remain concerned only with server startup and
+// route registration.
 func (s *server) handleCapacity(w http.ResponseWriter, r *http.Request) {
-	http.Error(w, "not implemented", http.StatusNotImplemented)
+	repository := postgresadapter.NewCapacityRepository(s.db)
+	service := capacity.NewService(repository)
+	handler := httpapi.NewCapacityHandler(service)
+	handler.ServeHTTP(w, r)
 }
