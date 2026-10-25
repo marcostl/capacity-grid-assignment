@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { validateRange } from './date'
+import { shiftDate, validateRange } from './date'
 
 type Props = {
   from: string
@@ -12,6 +12,15 @@ export function CapacityToolbar({ from, to, onApply, disabled }: Props) {
   const [draftFrom, setDraftFrom] = useState(from)
   const [draftTo, setDraftTo] = useState(to)
   const [error, setError] = useState<string | null>(null)
+
+  function shiftRange(days: number) {
+    const shiftedFrom = shiftDate(from, days)
+    const shiftedTo = shiftDate(to, days)
+    setDraftFrom(shiftedFrom)
+    setDraftTo(shiftedTo)
+    setError(null)
+    onApply(shiftedFrom, shiftedTo)
+  }
 
   function apply(event: FormEvent) {
     event.preventDefault()
@@ -27,6 +36,9 @@ export function CapacityToolbar({ from, to, onApply, disabled }: Props) {
   return (
     <div className="capacity-toolbar">
       <form className="range-form" onSubmit={apply}>
+        <button type="button" onClick={() => shiftRange(-7)} disabled={disabled}>
+          <span aria-hidden="true">←</span> Previous week
+        </button>
         <label>
           From
           <input
@@ -45,6 +57,9 @@ export function CapacityToolbar({ from, to, onApply, disabled }: Props) {
         </label>
         <button type="submit" disabled={disabled || (draftFrom === from && draftTo === to)}>
           Apply range
+        </button>
+        <button type="button" onClick={() => shiftRange(7)} disabled={disabled}>
+          Next week <span aria-hidden="true">→</span>
         </button>
       </form>
       {error && <p className="field-error">{error}</p>}

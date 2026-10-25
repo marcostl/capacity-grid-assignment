@@ -29,6 +29,7 @@ left unfinished. Append as you go; a line or two per entry is right.
 - Week-step navigation is intentionally deferred while its UX is reconsidered.
 - CSS has been completely neglected. This is intended for now. Will revisit if time permits
 - Same for the UX of the date selection. Very clunky for now and I believe can be greatly improved. Maybe for later.
+- Added simple previous/next controls that shift the entire applied range by seven days, satisfying week navigation without introducing two-dimensional week pagination.
 
 ## Implement weekly-hours updates API
 
@@ -44,3 +45,5 @@ left unfinished. Append as you go; a line or two per entry is right.
 - The grid edits one person at a time, disables controls during a save, and keeps the attempted value visible on failure with a row-level error.
 - Successful saves patch every loaded capacity page immediately, then invalidate capacity queries for server reconciliation; failed saves leave cached values untouched.
 - Editing other capacity's person while one is being saved is disabled
+
+## Final notes

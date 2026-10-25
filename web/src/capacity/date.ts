@@ -1,5 +1,11 @@
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
 
+export function shiftDate(value: string, days: number): string {
+  const date = new Date(`${value}T00:00:00Z`)
+  date.setUTCDate(date.getUTCDate() + days)
+  return date.toISOString().slice(0, 10)
+}
+
 export function validateRange(from: string, to: string): string | null {
   if (!isDate(from) || !isDate(to)) return 'Choose both dates.'
   if (to < from) return 'The end date must be on or after the start date.'
