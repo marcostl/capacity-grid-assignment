@@ -1,13 +1,17 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
 
-// handleUpdatePerson serves PATCH /api/people/{id}
-//
-// It should update the person's weekly hours. What it returns is yours to
-// design — the grid is the consumer, and it has state to keep honest.
-//
-// TODO: implement.
+	"capacity/api/internal/httpapi"
+	"capacity/api/internal/people"
+	postgresadapter "capacity/api/internal/postgres"
+)
+
+// handleUpdatePerson is the composition root for updating a person's capacity.
 func (s *server) handleUpdatePerson(w http.ResponseWriter, r *http.Request) {
-	http.Error(w, "not implemented", http.StatusNotImplemented)
+	repository := postgresadapter.NewPeopleRepository(s.db)
+	service := people.NewService(repository)
+	handler := httpapi.NewPeopleHandler(service)
+	handler.ServeHTTP(w, r)
 }

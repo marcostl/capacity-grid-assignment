@@ -125,6 +125,7 @@ type personCapacity struct {
 	Name           string    `json:"name"`
 	WeeklyHours    float64   `json:"weeklyHours"`
 	AllocatedHours []float64 `json:"allocatedHours"`
+	ETag           string    `json:"etag"`
 }
 
 type capacityPagination struct {
@@ -147,6 +148,7 @@ func newCapacityResponse(response capacity.Response) capacityResponse {
 			Name:           person.Name,
 			WeeklyHours:    person.WeeklyHours,
 			AllocatedHours: person.AllocatedHours,
+			ETag:           personETag(person.ID, person.WeeklyHours),
 		}
 	}
 	pagination := capacityPagination{Limit: response.Pagination.Limit}

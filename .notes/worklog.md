@@ -29,3 +29,12 @@ left unfinished. Append as you go; a line or two per entry is right.
 - Week-step navigation is intentionally deferred while its UX is reconsidered.
 - CSS has been completely neglected. This is intended for now. Will revisit if time permits
 - Same for the UX of the date selection. Very clunky for now and I believe can be greatly improved. Maybe for later.
+
+## Implement weekly-hours updates
+
+- PATCH returns the authoritative person and an informational weak ETag derived from the representation;
+- Capacity rows expose the same token.
+- The ETag deliberately does not enforce concurrency yet.
+- Preventing stale writes correctly needs a schema-backed version updated and checked atomically, which the fixed schema does not provide. Not implemented as the instructions explicitely mention not to update the schema.
+- Weekly hours accept decimals from 0 through 168 (24h x 7days, potential max number of hours a person can work, ignoring basic human rights and I guess 100% of labor laws)
+- Malformed input, missing people, and internal failures are translated to distinct user-safe responses.

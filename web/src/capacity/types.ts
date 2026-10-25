@@ -8,6 +8,7 @@ export type PersonCapacity = {
   name: string
   weeklyHours: number
   allocatedHours: number[]
+  etag: string
 }
 
 export type CapacityPage = {
