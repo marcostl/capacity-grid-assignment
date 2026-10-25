@@ -1,4 +1,5 @@
 import type { CapacityWeek, PersonCapacity } from './types'
+import { WeeklyHoursEditor } from './WeeklyHoursEditor'
 
 const PERSON_COLUMN_WIDTH = 250
 const WEEK_COLUMN_WIDTH = 132
@@ -14,14 +15,42 @@ export function gridColumns(weekCount: number) {
 type Props = {
   person: PersonCapacity
   weeks: CapacityWeek[]
+  isEditing: boolean
+  editDisabled: boolean
+  onEdit: () => void
+  onCloseEditor: () => void
 }
 
-export function CapacityRow({ person, weeks }: Props) {
+export function CapacityRow({
+  person,
+  weeks,
+  isEditing,
+  editDisabled,
+  onEdit,
+  onCloseEditor,
+}: Props) {
   return (
     <div className="capacity-row" role="row" style={{ gridTemplateColumns: gridColumns(weeks.length) }}>
       <div className="person-cell" role="rowheader">
-        <strong title={person.name}>{person.name}</strong>
-        <span>{formatHours(person.weeklyHours)} weekly hours</span>
+        {isEditing ? (
+          <WeeklyHoursEditor person={person} onClose={onCloseEditor} />
+        ) : (
+          <>
+            <strong title={person.name}>{person.name}</strong>
+            <span>
+              {formatHours(person.weeklyHours)} weekly hours
+              <button
+                type="button"
+                className="edit-hours"
+                onClick={onEdit}
+                disabled={editDisabled}
+                aria-label={`Edit weekly hours for ${person.name}`}
+              >
+                Edit
+              </button>
+            </span>
+          </>
+        )}
       </div>
       {weeks.map((week, index) => {
         const allocated = person.allocatedHours[index] ?? 0

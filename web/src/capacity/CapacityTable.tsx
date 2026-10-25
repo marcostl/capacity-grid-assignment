@@ -1,4 +1,5 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
+import { useIsMutating } from '@tanstack/react-query'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { formatWeek } from './date'
 import { CapacityRow, gridColumns, gridWidth } from './CapacityRow'
@@ -24,10 +25,12 @@ export function CapacityTable({
 }: Props) {
   const scrollElement = useRef<HTMLDivElement>(null)
   const sentinel = useRef<HTMLDivElement>(null)
+  const [editingPersonId, setEditingPersonId] = useState<number | null>(null)
+  const isSavingWeeklyHours = useIsMutating({ mutationKey: ['updateWeeklyHours'] }) > 0
   const virtualizer = useVirtualizer({
     count: people.length,
     getScrollElement: () => scrollElement.current,
-    estimateSize: () => 64,
+    estimateSize: () => 76,
     overscan: 8,
   })
   const virtualRows = virtualizer.getVirtualItems()
@@ -70,7 +73,16 @@ export function CapacityTable({
                 data-index={virtualRow.index}
                 style={{ transform: `translateY(${virtualRow.start}px)` }}
               >
-                <CapacityRow person={person} weeks={weeks} />
+                <CapacityRow
+                  person={person}
+                  weeks={weeks}
+                  isEditing={editingPersonId === person.id}
+                  editDisabled={isSavingWeeklyHours}
+                  onEdit={() => {
+                    if (!isSavingWeeklyHours) setEditingPersonId(person.id)
+                  }}
+                  onCloseEditor={() => setEditingPersonId(null)}
+                />
               </div>
             )
           })}

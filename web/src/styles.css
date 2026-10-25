@@ -230,7 +230,7 @@ main {
 }
 
 .capacity-row {
-  height: 64px;
+  height: 76px;
   border-bottom: 1px solid #e2e7e3;
 }
 
@@ -260,6 +260,68 @@ main {
 .person-cell span {
   color: #6a776e;
   font-size: 0.72rem;
+}
+
+.edit-hours {
+  min-height: auto;
+  margin-left: 0.45rem;
+  border: 0;
+  padding: 0;
+  color: #27744e;
+  background: transparent;
+  font-size: 0.72rem;
+  font-weight: 750;
+  text-decoration: underline;
+}
+
+.edit-hours:hover:not(:disabled) {
+  color: #195d3b;
+  background: transparent;
+}
+
+.hours-editor {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.hours-editor label {
+  color: #59675e;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.hours-editor > div {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.hours-editor input {
+  width: 4.5rem;
+  min-width: 0;
+  border: 1px solid #9caaa0;
+  border-radius: 0.35rem;
+  padding: 0.25rem 0.35rem;
+}
+
+.hours-editor button {
+  min-height: 1.75rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.35rem;
+  font-size: 0.7rem;
+}
+
+.hours-editor button[type="submit"] {
+  color: #fff;
+  border-color: #27744e;
+  background: #27744e;
+}
+
+.save-error {
+  overflow: hidden;
+  color: #a02c2c !important;
+  font-size: 0.62rem !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .allocation-cell {

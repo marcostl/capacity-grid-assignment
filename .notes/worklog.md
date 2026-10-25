@@ -30,7 +30,7 @@ left unfinished. Append as you go; a line or two per entry is right.
 - CSS has been completely neglected. This is intended for now. Will revisit if time permits
 - Same for the UX of the date selection. Very clunky for now and I believe can be greatly improved. Maybe for later.
 
-## Implement weekly-hours updates
+## Implement weekly-hours updates API
 
 - PATCH returns the authoritative person and an informational weak ETag derived from the representation;
 - Capacity rows expose the same token.
@@ -38,3 +38,9 @@ left unfinished. Append as you go; a line or two per entry is right.
 - Preventing stale writes correctly needs a schema-backed version updated and checked atomically, which the fixed schema does not provide. Not implemented as the instructions explicitely mention not to update the schema.
 - Weekly hours accept decimals from 0 through 168 (24h x 7days, potential max number of hours a person can work, ignoring basic human rights and I guess 100% of labor laws)
 - Malformed input, missing people, and internal failures are translated to distinct user-safe responses.
+
+## Implement weekly-hours updates in the UI
+
+- The grid edits one person at a time, disables controls during a save, and keeps the attempted value visible on failure with a row-level error.
+- Successful saves patch every loaded capacity page immediately, then invalidate capacity queries for server reconciliation; failed saves leave cached values untouched.
+- Editing other capacity's person while one is being saved is disabled
